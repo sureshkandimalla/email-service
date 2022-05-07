@@ -50,6 +50,6 @@
 
 ## 4 . Command to run service
 
-curl -X POST "http://localhost:8080/email" \
+curl -X POST "http://localhost:8080/sendEmail" \
 -H "Content-Type: application/json" \
 --data '{ "name": "Graham Williams",  "email": "xxxxx@gmail.com" }'
