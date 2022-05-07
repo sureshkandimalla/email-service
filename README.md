@@ -8,8 +8,8 @@
 ### 1.2 Application logging
 - Loging is not implemented can be implemented easily with App logger or AOP based on the scope
 ### 1.3 Deployment strategy
-- using AWS as a cloud provide and K8S implementation assuming there will be amy more services use the frame work
-- server less can be implemented AWS lambda or fargate if K8S are not the enterprise strategy
+- using AWS as a cloud provider and K8S implementation assuming this framework will reused for other use cases.
+- server less can be implemented using AWS lambda or fargate if K8S is not the enterprise strategy.
 ## 2. Application Components
 ### 2.1 Implementation Overview
     - Email Micro service is implemented as springboot restfull service
