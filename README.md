@@ -10,6 +10,9 @@
 ### 1.3 Deployment strategy
 - using AWS as a cloud provider and K8S implementation assuming this framework will be reused for other use cases.
 - server less can be implemented using AWS lambda or fargate if K8S is not the enterprise strategy.
+### 1.4 Improvements and extensions 
+    - send email functionality is implimented for single user , can be added to multiple and list of users
+    - need more confugrations for schduling emails either with in app cache or DB
 ## 2. Application Components
 ### 2.1 Implementation Overview
     - Email Micro service is implemented as springboot restfull service
@@ -49,7 +52,15 @@
         2. HorizontalPodAutoscaler will be used to auto scale the pods based on the load strategy 
 
 ## 4 . Command to run service
-
-curl -X POST "http://localhost:8080/sendEmail" \
--H "Content-Type: application/json" \
---data '{ "name": "Graham Williams",  "email": "xxxxx@gmail.com" }'
+    - Before running the application user need to update the application.properties file for correct smtp credentials ( will send those in email)
+    - EmailService.java has a test method to test the sending functionality
+    - use below curl to test the rest api
+        curl --location --request POST 'http://localhost:8080/sendEmail' \
+        --header 'Content-Type: application/json' \
+        --data-raw '{
+        "user": {
+        "name": "Graham Williams",
+        "emailId": "XXXXXXXX@gmail.com"
+        },
+        "emailTemplate":"emailTemplate"
+        }'

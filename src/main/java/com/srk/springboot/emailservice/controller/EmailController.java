@@ -16,7 +16,7 @@ public class EmailController {
         this.emailService = emailService;
     }
 
-    @PostMapping(value = "/sendEmail")
+    @PostMapping(value = "/sendEmail",  consumes = "application/json")
     @ResponseBody
     public String sendMail(@RequestBody EmailUser user,@RequestBody String emailTemplate)throws MessagingException {
         try {
