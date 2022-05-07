@@ -1,0 +1,21 @@
+# ALB ALB Ingress Service
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: email-app
+  name: email-alb
+  namespace: email-ns
+spec:
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+      protocol: TCP
+    - name: https
+      port: 443
+      targetPort: 443
+      protocol: TCP
+  type: NodePort
+  selector:
+    app: email-app

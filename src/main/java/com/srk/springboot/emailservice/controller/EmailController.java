@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
+import java.util.Date;
 
 @RestController
 public class EmailController {
@@ -23,6 +24,20 @@ public class EmailController {
             emailService.sendMail(user,emailTemplate);
         } catch (Exception e) {
           // TODO need to implement exception handling
+            e.printStackTrace();
+            return "Error while sending email.!";
+        }
+        return "Email Sent Successfully.!";
+    }
+    //TODO test the implementation and fix if any issues
+    @PostMapping(value = "/scheduleEmail")
+    @ResponseBody
+    public String ScheduleMail(@RequestBody EmailUser user,@RequestBody String emailTemplate,@RequestBody Date schTime)throws MessagingException {
+        try {
+            if(isValidRequest(user,emailTemplate))
+                emailService.scheduleMail(user,emailTemplate,schTime);
+        } catch (Exception e) {
+            // TODO need to implement exception handling
             e.printStackTrace();
             return "Error while sending email.!";
         }

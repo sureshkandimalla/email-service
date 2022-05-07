@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: email-pvc
+  namespace: email-ns
+  annotations:
+    volume.beta.kubernetes.io/storage-class: "email-sc"
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 300Gi

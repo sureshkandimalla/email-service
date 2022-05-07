@@ -1,0 +1,32 @@
+# K8 Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: email-mdir
+  namespace: email-ns
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: email-app
+  template:
+    metadata:
+      labels:
+        app: email-app
+    spec:
+      containers:
+        - name: email-mdir
+          ### Add New Image Here...
+          image: xxxxxx.dkr.ecr.us-west-2.amazonaws.com/email-dev:{{IMAGEID}}
+          # Wait for WordPress PODS to Warmup
+          lifecycle:
+            preStop:
+              exec:
+                command: ["sleep", "500"]
+          volumeMounts:
+            - name: tmpl-prod-data
+              mountPath: /emplates
+      volumes:
+        - name: email-pvc
+          persistentVolumeClaim:
+            claimName: email-pvc

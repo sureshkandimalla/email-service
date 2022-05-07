@@ -21,7 +21,7 @@ class EmailServiceTest {
     }
     @Test()
     void testSendMail() throws Exception {
-        EmailUser emailUser=new EmailUser("suresh","sureshkandimalla@gmail.com");
+        EmailUser emailUser=new EmailUser("Graham Williams","sureshkandimalla@gmail.com");
         emailService.sendMail(emailUser,"emailTemplate");
     }
 

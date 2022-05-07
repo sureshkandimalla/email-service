@@ -1,0 +1,44 @@
+# ALB Ingress Controller
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: email-ingress
+  namespace: email-ns
+  annotations:
+    # ALB Settings
+    kubernetes.io/ingress.class: alb
+    # Required to place on public-subnet
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    # Specifies the custom name to use for the load balancer
+    alb.ingress.kubernetes.io/load-balancer-name: email-alb-ingress
+    # specifies how to route traffic to pods. Instance mode will route traffic to all ec2 instances within cluster on NodePort opened for your service.
+    alb.ingress.kubernetes.io/target-type: instance
+    # specifies the Availability Zone that ALB will route traffic to.
+    alb.ingress.kubernetes.io/subnets: subnet-xxxxxxx
+    # SSL & SG Settings
+    alb.ingress.kubernetes.io/certificate-arn: XXX
+    alb.ingress.kubernetes.io/security-groups: XXX
+    # Respond to both ports
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}, {"HTTP":80}]'
+    # Redirect HTTP to HTTPS
+    alb.ingress.kubernetes.io/actions.ssl-redirect: '{"Type": "redirect", "RedirectConfig": { "Protocol": "HTTPS", "Port": "443", "StatusCode": "HTTP_301"}}'
+    # HealthCheck
+    alb.ingress.kubernetes.io/success-codes: 200,404,301,302
+    # Set Session-Affinity
+    alb.ingress.kubernetes.io/target-group-attributes: stickiness.enabled=true,stickiness.lb_cookie.duration_seconds=172800
+    # adding dns entry using external-dns
+    external-dns.alpha.kubernetes.io/hostname: email.abc.com
+  labels:
+    app: email-app
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /*
+            backend:
+              serviceName: ssl-redirect
+              servicePort: use-annotation
+          - path: /*
+            backend:
+              serviceName: email-alb
+              servicePort: 80
